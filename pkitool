@@ -72,17 +72,18 @@ server|client [options]:
 
 pkcs12 [options]:
 
-  pkcs12 [--conf file] [--name prefix] [--fname "friendly name"] \
+  pkcs12 [--conf file] [--format der|pem] \
+         [--name prefix] [--fname "friendly name"] \
          [--withca yes|no] [--cacert file] [--caname "ca friendly name"]
 
-commands:
+Commands:
 
   ca        generate CA private key and self signed certificate
   server    generate server key/certifcate pair, signed by CA
   client    generate client key/certificate pair, signed by CA
   pkcs12    generate PKCS #12
 
-options:
+Options:
 
   --conf filename     use <filename> for configuration file
   --format der|pem    generate key/cert in der or pem format
@@ -95,13 +96,13 @@ options:
   --san vpn.my.com    use <vpn.my.com> for certificate subjectAltName
   --flag serverAuth|  set certificate extendedKeyUsage flag to serverAuth
          clientAuth     or clientAuth
-  --size N         set private key size to <N> bits
+  --size N            set private key size to <N> bits
   --lifetime N        set certificate valid lifetime to  <N> day
   --fname "Frnd Nm"   use <Frnd Nm> as friendly name for PKCS #12 key/cert
   --withca yes|no     include CA certificate in PKCS #12
   --caname "Frnd CA"  use <Frnd CA> as friendly name for CA in PKCS #12
 
-configuration file:
+Configuration file:
 
   If --conf option is not specified then a configuration file will be
   searched for with the following priority:
@@ -114,12 +115,17 @@ configuration file:
   configuration file may be empty or missing. In this case only defaults
   and/or command line options will be used.
 
-example:
+Example:
 
   '"$prog"' ca
   '"$prog"' server --name gateway --san vpn.mydomain.com --flag serverAuth
   '"$prog"' client --name rw --san myclient@mydomain.com
   '"$prog"' pkcs12 --name rw --withca=yes
+
+Example for custom DN with Country "MY" and Organization "My Organization"
+
+  '"$prog"' ca --dn "C=MY, O=My Organization, CN=My Organization CA"
+  '"$prog"' client --dn "C=MY, O=My Organization, CN=My Client"
 '
 }
 
